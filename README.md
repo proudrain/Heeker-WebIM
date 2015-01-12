@@ -6,6 +6,11 @@
 + 在线聊天。
 + 离线消息。
 
+## 技术实现
++ 前端使用**Angularjs**框架。
++ 后端使用python的**tornado**框架。
++ 核心通信使用**WebSocket**。
+
 ## 依赖
 + python-3.4
 + tornado-4.1
