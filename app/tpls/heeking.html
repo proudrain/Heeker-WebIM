@@ -1,0 +1,177 @@
+<div class="container">
+    <div class="row">
+
+        <!-- 主面板 -->
+        <div ng-controller="MainPanelCtrl" class="col-md-4">
+            <div class="panel panel-primary main_panel">
+
+                <div class="panel-heading clearfix">
+                    <span class="username pull-right" id="user_menu" data-toggle="dropdown">
+                        <span ng-bind="online_id">HeekID</span>
+                        <span class="caret"></span>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="user_menu">
+                        <li>
+                            <a href="#/heeking" role="menuitem" tabindex="-1" data-toggle="modal" data-target="#add_friend">添加好友</a>
+                        </li>
+                        <li>
+                            <a href="#/heeking" role="menuitem" tabindex="-1" data-toggle="modal" data-target="#logout">注销登陆</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="panel-body">
+                    <div class="search_bar">
+                        <input type="text" class="form-control" placeholder="搜索" />
+                    </div>
+
+                    <!-- 会话列表 -->
+                    <ul ng-show="panelState.chat" ng-controller="ChatCtrl" class="list-unstyled chat_list">
+                        <li ng-repeat="chat in chatlist" ng-click="goChating(chat)" class="media" ng-class="{active: chat.active}">
+                            <div class="media-left avatar_wrap">
+                                <img class="img-circle" src="imgs/photo1.jpg" alt="avatar" />
+                            </div>
+                            <div class="media-body info">
+                                <h4 class="media-heading" ng-bind="chat.heekid"></h4>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- 通讯录 -->
+                    <ul ng-show="panelState.addr" ng-controller="AddrCtrl" class="list-unstyled addr_list">
+                        <li ng-repeat="friend in online.addr_list" ng-click="getCurrentInfo(friend)" class="media" data-toggle="modal" data-target="#friend_info">
+                            <div class="media-left avatar_wrap">
+                                <img class="img-circle" src="imgs/photo1.jpg" alt="avatar" />
+                            </div>
+                            <div class="media-body info">
+                                <h4 class="media-heading" ng-bind="friend.heekid"></h4>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+
+                <div class="panel-footer">
+                    <ul class="list-inline">
+                        <li ng-click="changeToChat()" ng-class="{active: panelState.chat}">会话</li>
+                        <li ng-click="changeToAddr()" ng-class="{active: panelState.addr}">通讯录</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 聊天窗口 -->
+        <div ng-controller="ChatWinCtrl" class="col-md-8">
+            <div ng-if="panelState.chatWin" class="panel panel-default chat_panel">
+                <div class="panel-heading text-center"> <strong ng-bind="currChat[0].heekid"></strong>
+                    <button ng-click="chatWinClose()" class="close" type="button">
+                        <span aria-hidder="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled message_list">
+                        <message ng-repeat="msg in currChat[0].msg_list" message="msg" myid="{{myid}}">
+                        </message>
+                    </ul>
+                </div>
+
+                <div class="panel-footer chat_input">
+                    <form name="sendForm" class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <div class="col-md-2 func">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default">表</button>
+                                    <button type="button" class="btn btn-default">文</button>
+                                </div>
+                            </div>
+                            <div class="col-md-8 input_text">
+                                <input ng-model="currChat[0].tosend" type="text" class="form-control" ng-maxlength="4000" required/>
+                            </div>
+                            <div class="col-md-2 send">
+                                <button ng-click="send()" class="btn btn-success" ng-disabled="sendForm.$invalid">发 送</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 添加好友弹窗 -->
+<div ng-controller="AddAlertCtrl" class="modal fade" id="add_friend" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">添加新的好友</h4>
+            </div>
+            <div class="modal-body">
+                <form name="addForm">
+                    <input ng-model="add_heekid" type="text" class="form-control" placeholder="请输入好友的HeekID" ng-maxlength="20" required/>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span ng-bind="responseInfo" class="pull-left" ng-class="{'text-danger': add_warning=='wrong', 'text-success': add_warning=='ok'}"></span>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button ng-disabled="addForm.$invalid || addForm.$pristine" ng-click="addFriend(); addForm.$setPristine()" type="button" class="btn btn-primary">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 注销登陆弹窗 -->
+<div ng-controller="LogoutAlertCtrl" class="modal fade" id="logout" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title text-danger" id="myModalLabel">注销！</h4>
+            </div>
+            <div class="modal-body">确定退出登陆吗？</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">不了</button>
+                <button ng-click="logout()" type="button" class="btn btn-danger">是的</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 详细信息弹窗 -->
+<div ng-controller="InfoAlertCtrl" class="modal fade" id="friend_info" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">详细信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="media">
+                    <div class="media-left avatar_wrap">
+                        <img class="img-circle" src="imgs/photo1.jpg" alt="avatar" />
+                    </div>
+                    <div class="media-body info">
+                        <h3 class="media-heading" ng-bind="currentInfo.heekid"></h3>
+                        <p>个人说明：</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="chatnow()" type="button" class="btn btn-success chatnow" data-dismiss="modal">发送消息</button>
+            </div>
+        </div>
+    </div>
+</div>

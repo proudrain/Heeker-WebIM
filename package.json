@@ -1,0 +1,14 @@
+{
+  "version": "0.0.0",
+  "private": true,
+  "name": "angular-recommended",
+  "description": "ng官方推荐的项目结构",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^0.6.1"
+  },
+  "scripts": {
+    "prestart": "npm install",
+    "start": "http-server -p 8000"
+  }
+}

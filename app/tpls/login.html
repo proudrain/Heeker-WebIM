@@ -1,0 +1,53 @@
+<div class="form-signin">
+  <div class="text-center">
+    <!-- <img src="" alt=""> -->
+    <h2>Heeker</h2>
+  </div>
+  <hr>
+  <div class="tab-content">
+    <div ng-controller="SigninCtrl" ng-show="tabShow=='login'" class="tag">
+      <form name="loginForm">
+        <p class="text-muted text-center" ng-class="{'text-success': login_warning=='ok', 'text-danger': login_warning=='wrong'}" ng-bind="login_info"></p>
+        <input ng-model="id" type="text" placeholder="HeekID" class="form-control top" ng-maxlength="20" required>
+        <input ng-model="pwd" type="password" placeholder="密码" class="form-control bottom" ng-maxlength="16" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox">记住我</label>
+        </div>
+        <button ng-click="login(id, pwd); loginForm.$setPristine()" class="btn btn-lg btn-primary btn-block" type="submit" ng-disabled="loginForm.$invalid || loginForm.$pristine">登 陆</button>
+      </form>
+    </div>
+    <div ng-show="tabShow=='forgot'" class="tag">
+      <form>
+        <p class="text-muted text-center">输入你注册时的邮箱</p>
+        <input type="email" placeholder="mail@domain.com" class="form-control">
+        <br>
+        <button class="btn btn-lg btn-danger btn-block" type="submit" ng-disabled="true">找回密码</button>
+      </form>
+    </div>
+    <div ng-controller="SignupCtrl" ng-show="tabShow=='signup'" class="tag">
+      <form name="signupForm">
+        <p class="text-muted text-center" ng-class="{'text-success': signup_warning=='ok', 'text-danger': signup_warning=='wrong'}" ng-bind="info">填写以下信息进行注册</p>
+        <input type="text" name="heekid" ng-model="heekid" placeholder="HeekID" class="form-control top" ng-maxlength="20" required>
+        <input type="password" ng-model="passwd" placeholder="密码" class="form-control middle" ng-maxlength="16" required>
+        <input type="password" ng-model="confirm_passwd" placeholder="重复密码" class="form-control middle" ng-maxlength="16" required>
+        <input type="text" ng-model="invitation" placeholder="邀请码" class="form-control bottom" ng-maxlength="10" required>
+        <button ng-click="signup(); signupForm.$setPristine()" class="btn btn-lg btn-success btn-block" type="submit" ng-disabled="signupForm.$invalid || (passwd != confirm_passwd) || signupForm.$pristine">注册</button>
+      </form>
+    </div>
+  </div>
+  <hr>
+  <div class="text-center">
+    <ul class="list-inline">
+      <li>
+        <a ng-click=changeTab("login") class="text-muted" href="#login">登陆</a>
+      </li>
+      <li>
+        <a ng-click=changeTab("forgot") class="text-muted" href="#login">忘记密码</a>
+      </li>
+      <li>
+        <a ng-click=changeTab("signup") class="text-muted" href="#login">注册</a>
+      </li>
+    </ul>
+  </div>
+</div>
