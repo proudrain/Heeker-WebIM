@@ -3,6 +3,7 @@
 ## 功能简介
 + 注册登录。
   > 注册提供邀请码机制。
+
 + 添加好友。
 + 在线聊天。
 + 离线消息。
@@ -14,7 +15,7 @@
 
 ## Tips
 + `python/main_service.py`为后端主程序。
-+ 数据库只需要执行该`sql/heeker.sql`SQL语句即可导入全部测试用数据。
++ 数据库只需要执行该`sql/heeker.sql` SQL语句即可导入全部测试用数据。
 + 可通过`python/invite_keys.py`查看现有邀请码。
 
 
