@@ -10,7 +10,7 @@ heekerDirectives.directive('message', [
                 myid: '@'
             },
             templateUrl: 'tpls/message.html',
-            link: function(scope, element, attrs) {
+            link: function (scope, element, attrs) {
                 if (scope.message.from == scope.myid) {
                     scope.whoseMessage = 'my_message clearfix';
                     scope.mediaSite = 'media-right';
@@ -25,11 +25,27 @@ heekerDirectives.directive('message', [
         };
 }]);
 
+heekerDirectives.directive('scrollBottom', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            messages: '=scrollBottom'
+        },
+        link: function (scope, elem, attrs) {
+            scope.$watchCollection('messages', function (newValue) {
+                if (newValue) {
+                    elem.scrollTop(elem.children('ul')[0].offsetHeight);
+                }
+            });
+        }
+    };
+});
+
 heekerDirectives.directive('equals', function() {
     return {
         restrict: 'A', // only activate on element attribute
         require: '?ngModel', // get a hold of NgModelController
-        link: function(scope, elem, attrs, ngModel) {
+        link: function (scope, elem, attrs, ngModel) {
             if (!ngModel) return; // do nothing if no ng-model
 
             // watch own value and re-validate on change
@@ -52,5 +68,5 @@ heekerDirectives.directive('equals', function() {
                     ngModel.$setValidity('equals', val1 === val2);
             };
         }
-    }
+    };
 });

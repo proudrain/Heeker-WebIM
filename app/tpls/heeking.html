@@ -70,7 +70,7 @@
                         <span class="sr-only">Close</span>
                     </button>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" scroll-bottom="currChat[0].msg_list">
                     <ul class="list-unstyled message_list">
                         <message ng-repeat="msg in currChat[0].msg_list" message="msg" myid="{{myid}}">
                         </message>

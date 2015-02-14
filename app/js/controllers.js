@@ -46,7 +46,7 @@ heekerCtrls.controller('SignupCtrl', ['$scope', 'APIService',
                 {'new_heekid': $scope.heekid, 'new_passwd': $scope.passwd, 'invitation': $scope.invitation},
                 function(data) {
                     if ('ok' in data.status) {
-                        $scope.info = "注册成功！"
+                        $scope.info = "注册成功！";
                         $scope.signup_warning = 'ok';
                         $scope.heekid = '';
                         $scope.passwd = '';
@@ -54,11 +54,11 @@ heekerCtrls.controller('SignupCtrl', ['$scope', 'APIService',
                         $scope.invitation = '';
                     }
                     if ('wrong' in data.status && data.status.wrong == 'repeated heekid') {
-                        $scope.info = "重复的HeekID！"
+                        $scope.info = "重复的HeekID！";
                         $scope.signup_warning = 'wrong';
                     }
                     if ('wrong' in data.status && data.status.wrong == 'invalid invitation') {
-                        $scope.info = "无效的邀请码！"
+                        $scope.info = "无效的邀请码！";
                         $scope.signup_warning = 'wrong';
                     }
                 });
@@ -117,7 +117,7 @@ heekerCtrls.controller('ChatCtrl', ['$scope', 'WindowService', 'ChatingService',
         $scope.goChating = function(currChat) {
             ChatingService.setActive(currChat.heekid);
             WindowService.chatWinDisplay();
-        }
+        };
     }
 ]);
 
@@ -140,7 +140,7 @@ heekerCtrls.controller('AddrCtrl', ['$scope', '$rootScope', '$location', 'Online
         $scope.online = OnlineService;
         $scope.getCurrentInfo = function(currInfo) {
             $rootScope.currentInfo = { 'heekid': currInfo.heekid };
-        }
+        };
     }
 ]);
 
@@ -153,12 +153,11 @@ heekerCtrls.controller('ChatWinCtrl', ['$scope', '$timeout', 'WindowService', 'C
         $scope.chatWinClose = function() {
             WindowService.chatWinClose();
             ChatingService.deleteChat(ChatingService.currChat[0]);
-        }
+        };
         $scope.send = function() {
             SocketService.sendMessage(ChatingService.currChat[0]);
             ChatingService.currChat[0].tosend = '';
-            console.log(ChatingService.currChat[0].msg_list);
-        }
+        };
     }
 ]);
 
@@ -201,7 +200,7 @@ heekerCtrls.controller('LogoutAlertCtrl', ['$scope', '$location', 'OnlineService
                 OnlineService.logoutReset('request');
                 SocketService.close();
                 $location.path('/login');
-        }
+        };
     }
 ]);
 
@@ -213,6 +212,6 @@ heekerCtrls.controller('InfoAlertCtrl', ['$scope', '$rootScope', 'WindowService'
             WindowService.chatDisplay();
             WindowService.chatWinDisplay();
             ChatingService.setActive($rootScope.currentInfo.heekid);
-        }
+        };
     }
 ]);
