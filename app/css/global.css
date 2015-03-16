@@ -179,6 +179,11 @@ a {
 }
 
 /*当前消息列表*/
+.message {
+    max-width: 535px;
+    word-break: break-all;
+}
+
 .my_message .avatar_wrap,
 .my_message .message {
     float: right;
@@ -210,8 +215,8 @@ a {
     text-align: center;
 }
 #friend_info .chatnow {
-    padding-left: 20px; 
-    padding-right: 20px; 
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 

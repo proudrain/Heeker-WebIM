@@ -11,6 +11,9 @@ heekerDirectives.directive('message', [
             },
             templateUrl: 'tpls/message.html',
             link: function (scope, element, attrs) {
+                element.find('.message')
+                    .css('max-width', element.width() - 70);
+
                 if (scope.message.from == scope.myid) {
                     scope.whoseMessage = 'my_message clearfix';
                     scope.mediaSite = 'media-right';
