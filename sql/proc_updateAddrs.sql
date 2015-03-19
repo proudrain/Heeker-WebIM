@@ -6,6 +6,11 @@ EXPORT: BEGIN
     DECLARE _err int DEFAULT 0;
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION,SQLWARNING,NOT FOUND set _err=1;
 
+    IF heekid_=add_heekid THEN
+        SET stat = "addself";
+        LEAVE EXPORT;
+    END IF;
+
     SELECT ID INTO tmp
     FROM users
     WHERE HEEKID = add_heekid;

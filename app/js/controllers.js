@@ -136,7 +136,7 @@ heekerCtrls.controller('AddrCtrl', ['$scope', '$rootScope', '$location', 'Online
             }
             OnlineService.addr_list = data.content;
         });
-        
+
         $scope.online = OnlineService;
         $scope.getCurrentInfo = function(currInfo) {
             $rootScope.currentInfo = { 'heekid': currInfo.heekid };
@@ -174,6 +174,10 @@ heekerCtrls.controller('AddAlertCtrl', ['$scope', '$location', 'OnlineService', 
                         OnlineService.logoutReset('info');
                         $location.path('/login');
                     }
+                    if (stat.wrong == 'addself') {
+                        $scope.responseInfo = '非法操作，不能添加自己为好友！';
+                        $scope.add_warning = 'wrong';
+                    }
                     if (stat.wrong == 'not found') {
                         $scope.responseInfo = '没有这个用户！';
                         $scope.add_warning = 'wrong';
@@ -207,7 +211,7 @@ heekerCtrls.controller('LogoutAlertCtrl', ['$scope', '$location', 'OnlineService
 // 详细信息弹窗控制器
 heekerCtrls.controller('InfoAlertCtrl', ['$scope', '$rootScope', 'WindowService', 'ChatingService',
     function($scope, $rootScope, WindowService, ChatingService) {
-        $scope.chatnow = function() { 
+        $scope.chatnow = function() {
             ChatingService.addChat($rootScope.currentInfo.heekid, true);
             WindowService.chatDisplay();
             WindowService.chatWinDisplay();

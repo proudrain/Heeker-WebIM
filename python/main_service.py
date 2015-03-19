@@ -120,7 +120,7 @@ class LoginHandler(CorsHandler):
     def post(self):
         heekid = self.get_argument("heekid")
         password = self.get_argument("password")
-        
+
         conn, cur = conn_db()
         sql = "select PASSWORD from users where HEEKID='" + heekid + "'"
         query_db(cur, sql)
@@ -180,6 +180,8 @@ class AddrListHandler(CorsHandler):
             cur.execute('SELECT @_update_addrs_2')
             stat = cur.fetchone()['@_update_addrs_2']
             print(stat)
+            if stat == 'addself':
+                self.write(StatusInfo(info='addself').status)
             if stat == 'not found':
                 self.write(StatusInfo(info='not found').status)
             if stat == 'repeated':
@@ -212,7 +214,7 @@ class ChatHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         message = json_decode(message)
-        
+
         # 身份验证
         if message.get('identity'):
             identity = message['identity']
@@ -225,7 +227,7 @@ class ChatHandler(tornado.websocket.WebSocketHandler):
             conn, cur = conn_db()
             cur.callproc('get_message', (identity['heekid'],))
             for msg in cur:
-                chat = {'from': msg['FROM_'], 'to': msg['TO_'], 
+                chat = {'from': msg['FROM_'], 'to': msg['TO_'],
                         'content': msg['CONTENT'], 'date': msg['DATE']}
                 self.write_message({'chat': chat})
             close_db(conn, cur)
